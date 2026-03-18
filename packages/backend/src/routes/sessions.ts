@@ -20,7 +20,8 @@ export async function sessionRoutes(app: FastifyInstance): Promise<void> {
       where: { id: questionId },
       include: { starterCodes: true },
     });
-    const defaultCode = questionWithCode?.starterCodes.find(sc => sc.language === 'typescript')?.code ?? '';
+    const defaultCode =
+      questionWithCode?.starterCodes.find((sc) => sc.language === 'typescript')?.code ?? '';
 
     const session = await prisma.interviewSession.create({
       data: {
@@ -101,4 +102,3 @@ export async function sessionRoutes(app: FastifyInstance): Promise<void> {
     return reply.send(updated);
   });
 }
-

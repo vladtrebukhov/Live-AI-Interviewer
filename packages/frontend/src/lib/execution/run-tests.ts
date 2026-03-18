@@ -25,10 +25,10 @@ export async function runTestCasesInBrowser(
         passed,
         actualOutput,
         expectedOutput: testCase.expectedOutput,
-        error:
-          execution.timedOut
-            ? 'Execution timed out'
-            : trimmedStderr || (execution.exitCode !== 0 ? `Process exited with code ${execution.exitCode}` : null),
+        error: execution.timedOut
+          ? 'Execution timed out'
+          : trimmedStderr ||
+            (execution.exitCode !== 0 ? `Process exited with code ${execution.exitCode}` : null),
       });
     } catch (error) {
       results.push({

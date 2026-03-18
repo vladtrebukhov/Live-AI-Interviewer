@@ -51,7 +51,9 @@ export default function Dashboard() {
           >
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-lg font-semibold">{q.title}</h2>
-              <span className={`text-xs font-medium px-2 py-1 rounded ${difficultyColors[q.difficulty]}`}>
+              <span
+                className={`text-xs font-medium px-2 py-1 rounded ${difficultyColors[q.difficulty]}`}
+              >
                 {q.difficulty}
               </span>
             </div>

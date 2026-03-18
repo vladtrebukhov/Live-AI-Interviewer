@@ -26,7 +26,9 @@ function getMicButtonLabel(status: ReturnType<typeof useInterviewStore.getState>
   }
 }
 
-function getSpeechStatusLabel(status: ReturnType<typeof useInterviewStore.getState>['speechStatus']) {
+function getSpeechStatusLabel(
+  status: ReturnType<typeof useInterviewStore.getState>['speechStatus'],
+) {
   switch (status) {
     case 'starting':
       return 'Starting microphone…';
@@ -41,7 +43,11 @@ function getSpeechStatusLabel(status: ReturnType<typeof useInterviewStore.getSta
   }
 }
 
-export default function InterviewWorkspace({ params }: { params: Promise<{ questionId: string }> }) {
+export default function InterviewWorkspace({
+  params,
+}: {
+  params: Promise<{ questionId: string }>;
+}) {
   const { questionId } = use(params);
   const [question, setQuestion] = useState<Question | null>(null);
   const [loading, setLoading] = useState(true);
@@ -72,10 +78,8 @@ export default function InterviewWorkspace({ params }: { params: Promise<{ quest
     setTestResults,
   } = useInterviewStore();
 
-  const { sendCodeUpdate, sendFinalTranscript, sendSpeechStatus, requestFeedback } = useInterviewSocket(
-    question?.id ?? null,
-    sessionId,
-  );
+  const { sendCodeUpdate, sendFinalTranscript, sendSpeechStatus, requestFeedback } =
+    useInterviewSocket(question?.id ?? null, sessionId);
 
   const { startRecognition, stopRecognition, isSupported } = useAzureSpeechRecognition({
     questionId: question?.id ?? null,
@@ -103,15 +107,18 @@ export default function InterviewWorkspace({ params }: { params: Promise<{ quest
       try {
         const data = await apiFetch<Question>(`/api/questions/${questionId}`);
         const existingState = useInterviewStore.getState();
-        const existingSessionId = existingState.questionId === questionId ? existingState.sessionId : null;
+        const existingSessionId =
+          existingState.questionId === questionId ? existingState.sessionId : null;
 
         const session = existingSessionId
-          ? await fetchInterviewSession(existingSessionId).catch(() => createInterviewSession(questionId))
+          ? await fetchInterviewSession(existingSessionId).catch(() =>
+              createInterviewSession(questionId),
+            )
           : await createInterviewSession(questionId);
 
         setQuestion(data);
         const starterLanguage = useInterviewStore.getState().language;
-        const starter = data.starterCodes.find(sc => sc.language === starterLanguage)?.code ?? '';
+        const starter = data.starterCodes.find((sc) => sc.language === starterLanguage)?.code ?? '';
         setCode(session.code || starter);
         setMessages(
           (session.messages ?? []).map((message) => ({
@@ -134,7 +141,16 @@ export default function InterviewWorkspace({ params }: { params: Promise<{ quest
       }
     }
     fetchQuestion();
-  }, [questionId, setCode, setMessages, setPartialTranscript, setQuestionId, setSessionId, setSpeechError, setSpeechStatus]);
+  }, [
+    questionId,
+    setCode,
+    setMessages,
+    setPartialTranscript,
+    setQuestionId,
+    setSessionId,
+    setSpeechError,
+    setSpeechStatus,
+  ]);
 
   useEffect(() => {
     if (!question?.id || !sessionId) {
@@ -277,7 +293,9 @@ export default function InterviewWorkspace({ params }: { params: Promise<{ quest
 
           {/* Language selector + Monaco Editor */}
           <div className="flex items-center gap-2 border-b bg-gray-900 px-4 py-1.5">
-            <label htmlFor="language-select" className="text-sm text-gray-400">Language:</label>
+            <label htmlFor="language-select" className="text-sm text-gray-400">
+              Language:
+            </label>
             <select
               id="language-select"
               value={language}
@@ -285,7 +303,8 @@ export default function InterviewWorkspace({ params }: { params: Promise<{ quest
                 const newLang = e.target.value as SupportedLanguage;
                 setLanguage(newLang);
                 if (question) {
-                  const starter = question.starterCodes.find(sc => sc.language === newLang)?.code ?? '';
+                  const starter =
+                    question.starterCodes.find((sc) => sc.language === newLang)?.code ?? '';
                   setCode(starter);
                 }
               }}
@@ -301,7 +320,9 @@ export default function InterviewWorkspace({ params }: { params: Promise<{ quest
           <div className="flex-1">
             <Editor
               height="100%"
-              language={SUPPORTED_LANGUAGES.find((l) => l.id === language)?.monacoId ?? 'typescript'}
+              language={
+                SUPPORTED_LANGUAGES.find((l) => l.id === language)?.monacoId ?? 'typescript'
+              }
               value={code}
               onChange={handleCodeChange}
               theme="vs-dark"
@@ -321,10 +342,16 @@ export default function InterviewWorkspace({ params }: { params: Promise<{ quest
         <div className="flex flex-col">
           <div className="border-b bg-gray-50 px-4 py-3 text-sm">
             <div className="flex items-center justify-between gap-3">
-              <span className={`font-medium ${speechStatus === 'error' ? 'text-red-600' : 'text-gray-700'}`}>
+              <span
+                className={`font-medium ${speechStatus === 'error' ? 'text-red-600' : 'text-gray-700'}`}
+              >
                 {getSpeechStatusLabel(speechStatus)}
               </span>
-              {!isSupported && <span className="text-red-600">Microphone access is unavailable in this browser.</span>}
+              {!isSupported && (
+                <span className="text-red-600">
+                  Microphone access is unavailable in this browser.
+                </span>
+              )}
             </div>
             {partialTranscript && (
               <p className="mt-2 rounded border border-blue-100 bg-blue-50 px-3 py-2 text-blue-900">
@@ -340,7 +367,8 @@ export default function InterviewWorkspace({ params }: { params: Promise<{ quest
             <div className="p-4 space-y-3">
               {messages.length === 0 ? (
                 <p className="text-gray-400 text-sm">
-                  AI feedback will appear here. Speak your thought process or click &quot;Get Feedback&quot;.
+                  AI feedback will appear here. Speak your thought process or click &quot;Get
+                  Feedback&quot;.
                 </p>
               ) : (
                 messages.map((msg) => (
@@ -365,7 +393,9 @@ export default function InterviewWorkspace({ params }: { params: Promise<{ quest
           {/* Console Output panel */}
           {runOutput && (
             <div className="border-b">
-              <div className="px-4 py-2 font-semibold bg-gray-50 text-sm border-b">Console Output</div>
+              <div className="px-4 py-2 font-semibold bg-gray-50 text-sm border-b">
+                Console Output
+              </div>
               <div className="p-4">
                 <pre className="bg-gray-900 rounded p-3 text-sm text-gray-300 overflow-auto max-h-48 whitespace-pre-wrap">
                   {runOutput}
@@ -383,8 +413,12 @@ export default function InterviewWorkspace({ params }: { params: Promise<{ quest
                   <p className="text-gray-400 text-sm mb-3">Run your code to see test results.</p>
                   {question.testCases.map((tc) => (
                     <div key={tc.id} className="text-sm border rounded p-2 mb-2">
-                      <div><span className="font-medium">Input:</span> {tc.input}</div>
-                      <div><span className="font-medium">Expected:</span> {tc.expectedOutput}</div>
+                      <div>
+                        <span className="font-medium">Input:</span> {tc.input}
+                      </div>
+                      <div>
+                        <span className="font-medium">Expected:</span> {tc.expectedOutput}
+                      </div>
                     </div>
                   ))}
                 </div>

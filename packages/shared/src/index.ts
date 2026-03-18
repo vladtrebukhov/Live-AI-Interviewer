@@ -92,7 +92,13 @@ export type WsSpeechStatus = 'idle' | 'starting' | 'listening' | 'stopping' | 'e
 
 export type WsIncoming =
   | { type: 'code_update'; code: string; sessionId?: string }
-  | { type: 'transcript_final'; text: string; sessionId?: string; code?: string; timing?: SpeechRecognitionTiming }
+  | {
+      type: 'transcript_final';
+      text: string;
+      sessionId?: string;
+      code?: string;
+      timing?: SpeechRecognitionTiming;
+    }
   | { type: 'speech_status'; status: WsSpeechStatus; error?: string; sessionId?: string }
   | { type: 'request_feedback'; includeTts?: boolean; sessionId?: string };
 

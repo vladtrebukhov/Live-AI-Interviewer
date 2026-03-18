@@ -48,7 +48,9 @@ export async function generateFeedback(input: FeedbackInput): Promise<FeedbackOu
   const contextMessage = [
     `Current code:\n\`\`\`\n${input.currentCode}\n\`\`\``,
     input.recentTranscript ? `Candidate just said: "${input.recentTranscript}"` : '',
-  ].filter(Boolean).join('\n\n');
+  ]
+    .filter(Boolean)
+    .join('\n\n');
 
   messages.push({ role: 'user', content: contextMessage });
 
@@ -63,7 +65,10 @@ export async function generateFeedback(input: FeedbackInput): Promise<FeedbackOu
   const responseText = completion.choices[0]?.message?.content ?? '{}';
   try {
     const parsed = JSON.parse(responseText) as FeedbackOutput;
-    return { content: parsed.content ?? 'Could not generate feedback.', type: parsed.type ?? 'feedback' };
+    return {
+      content: parsed.content ?? 'Could not generate feedback.',
+      type: parsed.type ?? 'feedback',
+    };
   } catch {
     return { content: responseText, type: 'feedback' };
   }

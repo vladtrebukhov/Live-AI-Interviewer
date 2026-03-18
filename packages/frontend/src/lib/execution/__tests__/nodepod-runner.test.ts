@@ -154,18 +154,18 @@ describe('executeInBrowser', () => {
   });
 
   it('resets cached runtime promise when boot fails so a later call can retry', async () => {
-    mockBoot
-      .mockRejectedValueOnce(new Error('boot failed'))
-      .mockResolvedValueOnce({
-        fs: { writeFile: vi.fn().mockResolvedValue(undefined) },
-        spawn: vi.fn().mockResolvedValue({
-          completion: Promise.resolve({ stdout: 'ok\n', stderr: '', exitCode: 0 }),
-        }),
-      });
+    mockBoot.mockRejectedValueOnce(new Error('boot failed')).mockResolvedValueOnce({
+      fs: { writeFile: vi.fn().mockResolvedValue(undefined) },
+      spawn: vi.fn().mockResolvedValue({
+        completion: Promise.resolve({ stdout: 'ok\n', stderr: '', exitCode: 0 }),
+      }),
+    });
 
     const { executeInBrowser } = await import('../nodepod-runner.js');
 
-    await expect(executeInBrowser('javascript', 'console.log("first")')).rejects.toThrow('boot failed');
+    await expect(executeInBrowser('javascript', 'console.log("first")')).rejects.toThrow(
+      'boot failed',
+    );
 
     const second = await executeInBrowser('javascript', 'console.log("ok")');
 

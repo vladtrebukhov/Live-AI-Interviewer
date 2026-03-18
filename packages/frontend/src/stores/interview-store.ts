@@ -74,8 +74,7 @@ export const useInterviewStore = create<InterviewState>((set) => ({
   setPartialTranscript: (text) => set({ partialTranscript: text }),
   setSpeechError: (error) => set({ speechError: error }),
   setMessages: (messages) => set({ messages }),
-  addMessage: (message) =>
-    set((state) => ({ messages: [...state.messages, message] })),
+  addMessage: (message) => set((state) => ({ messages: [...state.messages, message] })),
   setTestResults: (results) => set({ testResults: results }),
   setRunOutput: (output) => set({ runOutput: output }),
   reset: () => set(initialState),

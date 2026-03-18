@@ -51,10 +51,7 @@ interface WsHydrationPrismaClient {
 }
 
 interface InterviewSessionMutationClient {
-  update(args: {
-    where: { id: string };
-    data: { code: string };
-  }): Promise<unknown> | unknown;
+  update(args: { where: { id: string }; data: { code: string } }): Promise<unknown> | unknown;
 }
 
 interface SessionMessageMutationClient {
@@ -85,9 +82,7 @@ interface WsHydrationInput {
   dependencies?: WsHydrationDependencies;
 }
 
-type WsHydrationResult =
-  | { ok: true; state: WsConnectionState }
-  | { ok: false; error: string };
+type WsHydrationResult = { ok: true; state: WsConnectionState } | { ok: false; error: string };
 
 interface WsMessageHandlerDependencies {
   prismaClient?: WsMessagePrismaClient;
@@ -118,7 +113,7 @@ export async function hydrateWsConnection({
   dependencies,
 }: WsHydrationInput): Promise<WsHydrationResult> {
   const prismaClient: WsHydrationPrismaClient = dependencies?.prismaClient ?? prisma;
-  let currentCode = question.starterCodes.find(sc => sc.language === 'typescript')?.code ?? '';
+  let currentCode = question.starterCodes.find((sc) => sc.language === 'typescript')?.code ?? '';
   const conversationHistory: ConversationMessage[] = [];
 
   if (!sessionId) {
@@ -132,10 +127,10 @@ export async function hydrateWsConnection({
     };
   }
 
-  const session = await prismaClient.interviewSession.findUnique({
+  const session = (await prismaClient.interviewSession.findUnique({
     where: { id: sessionId },
     include: { messages: { orderBy: { createdAt: 'asc' } } },
-  }) as InterviewSessionLike | null;
+  })) as InterviewSessionLike | null;
 
   if (!session) {
     return { ok: false, error: 'Session not found' };
@@ -203,7 +198,10 @@ export async function handleWsIncomingMessage({
             data: { code: nextCode },
           });
         } catch (err) {
-          logger?.error({ err, questionId, sessionId: state.boundSessionId }, 'Failed to persist session code');
+          logger?.error(
+            { err, questionId, sessionId: state.boundSessionId },
+            'Failed to persist session code',
+          );
           sendMessage({ type: 'error', message: 'Failed to save session code' });
         }
       }
@@ -258,7 +256,10 @@ export async function handleWsIncomingMessage({
           timing: msg.timing,
         });
       } catch (err) {
-        logger?.error({ err, questionId, sessionId: state.boundSessionId }, 'Transcript persistence failed');
+        logger?.error(
+          { err, questionId, sessionId: state.boundSessionId },
+          'Transcript persistence failed',
+        );
         sendMessage({ type: 'error', message: 'Failed to store transcript' });
       }
       return;
@@ -329,7 +330,10 @@ export async function handleWsIncomingMessage({
           }
         }
       } catch (err) {
-        logger?.error({ err, questionId, sessionId: state.boundSessionId }, 'Feedback generation failed');
+        logger?.error(
+          { err, questionId, sessionId: state.boundSessionId },
+          'Feedback generation failed',
+        );
         sendMessage({ type: 'error', message: 'Failed to generate feedback' });
       }
       return;
@@ -411,4 +415,3 @@ export async function wsRoutes(app: FastifyInstance): Promise<void> {
     },
   );
 }
-

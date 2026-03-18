@@ -27,7 +27,10 @@ async function getRuntime(): Promise<NodepodRuntime> {
   return runtimePromise;
 }
 
-function transpileTypeScriptToJavaScript(source: string): { outputText: string; error: string | null } {
+function transpileTypeScriptToJavaScript(source: string): {
+  outputText: string;
+  error: string | null;
+} {
   const transpileResult = ts.transpileModule(source, {
     compilerOptions: {
       module: ts.ModuleKind.CommonJS,
@@ -38,7 +41,9 @@ function transpileTypeScriptToJavaScript(source: string): { outputText: string; 
   });
 
   const diagnostics = transpileResult.diagnostics ?? [];
-  const errors = diagnostics.filter((diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error);
+  const errors = diagnostics.filter(
+    (diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error,
+  );
 
   if (errors.length === 0) {
     return { outputText: transpileResult.outputText, error: null };
