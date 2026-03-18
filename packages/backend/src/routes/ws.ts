@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import websocket, { type WebSocket } from '@fastify/websocket';
 import type { RawData } from 'ws';
-import type { WsIncoming, WsOutgoing } from '@agentsgalore/shared';
+import type { WsIncoming, WsOutgoing } from '@live-interviewer/shared';
 import { prisma } from '../lib/prisma.js';
 import { synthesizeSpeech } from '../services/tts.js';
 import { generateFeedback } from '../services/llm.js';

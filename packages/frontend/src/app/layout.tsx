@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AgentsGalore",
+  title: "Live Interviewer",
   description: "Live Coding Interview Simulator",
 };
 

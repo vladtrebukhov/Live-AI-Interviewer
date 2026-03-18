@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiFetch } from '@/lib/api';
-import type { Question } from '@agentsgalore/shared';
+import type { Question } from '@live-interviewer/shared';
 
 const difficultyColors = {
   easy: 'bg-green-100 text-green-800',

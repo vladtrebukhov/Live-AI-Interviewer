@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useCallback, useState } from 'react';
-import type { SpeechRecognitionTiming, WsIncoming, WsOutgoing, WsSpeechStatus } from '@agentsgalore/shared';
+import type { SpeechRecognitionTiming, WsIncoming, WsOutgoing, WsSpeechStatus } from '@live-interviewer/shared';
 import { useInterviewStore } from '@/stores/interview-store';
 
 const RECONNECT_DELAY_MS = 1_000;

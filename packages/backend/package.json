@@ -1,5 +1,5 @@
 {
-  "name": "@agentsgalore/backend",
+  "name": "@live-interviewer/backend",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -9,7 +9,7 @@
     "start": "node dist/server.js"
   },
   "dependencies": {
-    "@agentsgalore/shared": "workspace:*",
+    "@live-interviewer/shared": "workspace:*",
     "@fastify/cors": "^11.0.0",
     "@fastify/websocket": "^11.0.1",
     "@prisma/adapter-pg": "^7.4.2",

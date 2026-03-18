@@ -1,4 +1,4 @@
-import type { SupportedLanguage, TestCase, TestCaseResult } from '@agentsgalore/shared';
+import type { SupportedLanguage, TestCase, TestCaseResult } from '@live-interviewer/shared';
 import { executeInBrowser } from './nodepod-runner';
 
 export async function runTestCasesInBrowser(

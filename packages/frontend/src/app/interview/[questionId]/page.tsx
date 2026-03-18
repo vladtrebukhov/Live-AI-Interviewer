@@ -8,8 +8,8 @@ import { useAzureSpeechRecognition } from '@/hooks/use-azure-speech-recognition'
 import { apiFetch, createInterviewSession, fetchInterviewSession } from '@/lib/api';
 import { executeInBrowser } from '@/lib/execution/nodepod-runner';
 import { runTestCasesInBrowser } from '@/lib/execution/run-tests';
-import { SUPPORTED_LANGUAGES } from '@agentsgalore/shared';
-import type { Question, SupportedLanguage } from '@agentsgalore/shared';
+import { SUPPORTED_LANGUAGES } from '@live-interviewer/shared';
+import type { Question, SupportedLanguage } from '@live-interviewer/shared';
 
 function getMicButtonLabel(status: ReturnType<typeof useInterviewStore.getState>['speechStatus']) {
   switch (status) {

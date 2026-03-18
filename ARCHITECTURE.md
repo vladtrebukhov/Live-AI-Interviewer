@@ -1,13 +1,12 @@
 ---
 title: Architecture
-description: Architectural overview and key design decisions for the AgentsGalore live coding interview simulator.
+description: Architectural overview and key design decisions for the live coding interview simulator.
 author: Microsoft
 ms.date: 2026-03-17
 ms.topic: concept
 keywords:
   - architecture
   - design decisions
-  - agentsgalore
   - live interview
 estimated_reading_time: 15
 ---
@@ -48,9 +47,9 @@ The project uses pnpm workspaces with a flat `packages/*` layout. Three packages
 
 | Package                    | Purpose                                             |
 |----------------------------|-----------------------------------------------------|
-| `@agentsgalore/shared`     | Domain types, WebSocket message schemas, language registry |
-| `@agentsgalore/backend`    | Fastify API server, database, AI services           |
-| `@agentsgalore/frontend`   | Next.js web app, code editor, speech recognition    |
+| `/shared`     | Domain types, WebSocket message schemas, language registry |
+| `backend`    | Fastify API server, database, AI services           |
+| `/frontend`   | Next.js web app, code editor, speech recognition    |
 
 TypeScript project references enable incremental builds across `shared` and `backend`. The frontend is excluded from root project references because Next.js uses `moduleResolution: "bundler"` instead of `Node16`.
 

@@ -1,5 +1,5 @@
 {
-  "name": "agentsgalore",
+  "name": "live-interviewer",
   "private": true,
   "type": "module",
   "engines": {
@@ -16,8 +16,8 @@
     "test:e2e:headed": "playwright test --headed",
     "build": "corepack pnpm -r build",
     "dev": "pnpm -r --parallel dev",
-    "db:migrate": "pnpm --filter @agentsgalore/backend exec prisma migrate dev",
-    "db:seed": "pnpm --filter @agentsgalore/backend exec prisma db seed"
+    "db:migrate": "pnpm --filter @live-interviewer/backend exec prisma migrate dev",
+    "db:seed": "pnpm --filter @live-interviewer/backend exec prisma db seed"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -1,21 +1,6 @@
----
-title: AgentsGalore: Live Coding Interview Simulator
-description: Setup and development guide for the AgentsGalore monorepo, including the shared root environment configuration.
-author: Microsoft
-ms.date: 2026-03-17
-ms.topic: overview
-keywords:
-  - agentsgalore
-  - next.js
-  - fastify
-  - prisma
-  - azure openai
-estimated_reading_time: 8
----
+## Live-Interviewer
 
-## Overview
-
-AgentsGalore is a browser-based app that simulates a live coding interview with real-time AI feedback. Users select a Low-Level Design question, write code in a Monaco editor, speak their thought process aloud, and receive feedback from an AI interviewer powered by Azure OpenAI.
+Live-Interviewer is a browser-based app that simulates a live coding interview with real-time AI feedback. Users select a Low-Level Design question, write code in a Monaco editor, speak their thought process aloud, and receive feedback from an AI interviewer powered by Azure OpenAI.
 
 The interviewer listens via browser speech recognition, evaluates your code and communication in real time, and responds with typed feedback (hints, clarifications, confirmations, follow-ups). You can run code and tests directly in the browser without any server-side execution.
 
@@ -52,7 +37,7 @@ For detailed architectural decisions, data flow, and design rationale, see [ARCH
 ## Project Structure
 
 ```text
-agentsgalore/
+live-interview/
 ├── packages/
 │   ├── shared/            # TypeScript types and constants
 │   ├── backend/
@@ -85,8 +70,8 @@ agentsgalore/
 ### 1. Clone and install dependencies
 
 ```bash
-git clone https://github.com/vladtrebukhov/agentsgalore.git
-cd agentsgalore
+git clone https://github.com/vladtrebukhov/Live-AI-Interviewer
+cd liveinterivew
 pnpm install
 ```
 
@@ -101,14 +86,14 @@ docker compose up -d
 This starts a PostgreSQL 16 instance on `localhost:5432` with:
 - **User:** `postgres`
 - **Password:** `postgres`
-- **Database:** `agentsgalore`
+- **Database:** `live_interviewer`
 
 To verify it's running:
 ```bash
 docker compose ps
 ```
 
-You should see `agentsgalore-db` with status `Up`.
+You should see `live-interviewer-db` with status `Up`.
 
 To stop it later:
 ```bash
@@ -127,7 +112,7 @@ docker compose down -v
 ```bash
 brew install postgresql@16
 brew services start postgresql@16
-createdb agentsgalore
+createdb live_interviewer
 ```
 
 **Ubuntu/Debian:**
@@ -135,11 +120,11 @@ createdb agentsgalore
 sudo apt update
 sudo apt install postgresql postgresql-contrib
 sudo systemctl start postgresql
-sudo -u postgres createdb agentsgalore
+sudo -u postgres createdb live_interviewer
 ```
 
 **Windows:**
-Download from https://www.postgresql.org/download/windows/ and run the installer. Use pgAdmin or `psql` to create the `agentsgalore` database.
+Download from https://www.postgresql.org/download/windows/ and run the installer. Use pgAdmin or `psql` to create the `live_interviewer` database.
 
 If you use a custom user/password/port, update `DATABASE_URL` in your `.env` accordingly.
 </details>

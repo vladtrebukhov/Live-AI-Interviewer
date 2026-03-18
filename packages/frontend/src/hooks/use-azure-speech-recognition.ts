@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import * as SpeechSDK from 'microsoft-cognitiveservices-speech-sdk';
-import type { SpeechRecognitionTiming } from '@agentsgalore/shared';
+import type { SpeechRecognitionTiming } from '@live-interviewer/shared';
 import { fetchSpeechToken } from '@/lib/api';
 import type { SpeechRecognitionStatus } from '@/stores/interview-store';
 

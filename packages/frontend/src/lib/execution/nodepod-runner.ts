@@ -1,5 +1,5 @@
 import { Nodepod } from '@scelar/nodepod';
-import type { SupportedLanguage } from '@agentsgalore/shared';
+import type { SupportedLanguage } from '@live-interviewer/shared';
 import ts from 'typescript';
 
 type NodepodRuntime = Awaited<ReturnType<typeof Nodepod.boot>>;

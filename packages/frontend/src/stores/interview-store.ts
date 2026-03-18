@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { SupportedLanguage } from '@agentsgalore/shared';
+import type { SupportedLanguage } from '@live-interviewer/shared';
 
 export type SpeechRecognitionStatus = 'idle' | 'starting' | 'listening' | 'stopping' | 'error';
 
