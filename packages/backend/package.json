@@ -1,0 +1,26 @@
+{
+  "name": "@agentsgalore/backend",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "@agentsgalore/shared": "workspace:*",
+    "@fastify/cors": "^11.0.0",
+    "@fastify/websocket": "^11.0.1",
+    "@prisma/adapter-pg": "^7.4.2",
+    "@prisma/client": "^7.4.2",
+    "dotenv": "^16.4.7",
+    "fastify": "^5.2.1",
+    "openai": "^6.25.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.18.1",
+    "prisma": "^7.4.2",
+    "tsx": "^4.19.2"
+  }
+}

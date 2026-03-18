@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Question {
+  id          String     @id @default(cuid())
+  title       String
+  description String     @db.Text
+  difficulty  Difficulty
+  tags        String[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  testCases    TestCase[]
+  starterCodes StarterCode[]
+  sessions     InterviewSession[]
+}
+
+model StarterCode {
+  id         String   @id @default(cuid())
+  questionId String
+  language   String   // 'typescript' | 'javascript'
+  code       String   @db.Text
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([questionId, language])
+}
+
+enum Difficulty {
+  easy
+  medium
+  hard
+}
+
+model TestCase {
+  id             String  @id @default(cuid())
+  questionId     String
+  input          String  @db.Text
+  expectedOutput String  @db.Text
+  isHidden       Boolean @default(false)
+
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}
+
+model InterviewSession {
+  id         String        @id @default(cuid())
+  questionId String
+  code       String        @db.Text @default("")
+  status     SessionStatus @default(active)
+  startedAt  DateTime      @default(now())
+  endedAt    DateTime?
+
+  question Question         @relation(fields: [questionId], references: [id])
+  messages SessionMessage[]
+}
+
+enum SessionStatus {
+  active
+  completed
+  abandoned
+}
+
+model SessionMessage {
+  id          String      @id @default(cuid())
+  sessionId   String
+  role        MessageRole
+  content     String      @db.Text
+  messageType MessageType
+  createdAt   DateTime    @default(now())
+
+  session InterviewSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+enum MessageRole {
+  user
+  assistant
+  system
+}
+
+enum MessageType {
+  code
+  speech
+  feedback
+  system
+}

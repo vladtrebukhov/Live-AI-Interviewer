@@ -1,0 +1,29 @@
+{
+	"servers": {
+		"playwright": {
+			"command": "npx",
+			"args": [
+				"@playwright/mcp@latest"
+			],
+			"type": "stdio"
+		},
+		"time": {
+			"command": "uvx",
+			"args": [
+				"mcp-server-time",
+				"--local-timezone",
+				"America/New_York"
+			],
+			"type": "stdio"
+		},
+		"context7": {
+			"type": "stdio",
+			"command": "npx",
+			"args": ["-y", "@upstash/context7-mcp@latest"]
+			},
+		"azure-docs": {
+			"type": "http",
+			"url": "https://learn.microsoft.com/api/mcp"
+			}
+	}
+}
