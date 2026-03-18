@@ -70,7 +70,8 @@ live-interview/
 ### 1. Clone and install dependencies
 
 ```bash
-git clone https://github.com/vladtrebukhov/Live-AI-Interviewer
+git clone https://github.com/vladtrebukhov/Live-AI-Interviewer.git
+cd Live-AI-Interviewer
 pnpm install
 ```
 
