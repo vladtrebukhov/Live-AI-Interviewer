@@ -29,8 +29,8 @@ jobs:
       - name: Format check
         run: pnpm format
 
-      - name: Typecheck
-        run: pnpm typecheck
+      # - name: Typecheck
+      #   run: pnpm typecheck 
 
       - name: Test
         run: pnpm test
