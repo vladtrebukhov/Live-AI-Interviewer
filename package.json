@@ -10,7 +10,7 @@
     "lint": "corepack pnpm --dir packages/frontend exec eslint . --no-warn-ignored && corepack pnpm exec eslint --no-warn-ignored packages/backend/src packages/backend/prisma.config.ts packages/backend/prisma/seed.ts packages/shared/src eslint.config.js vitest.config.ts playwright.config.ts",
     "format": "prettier --check ./packages",
     "format:fix": "prettier --write ./packages",
-    "typecheck": "tsc -b",
+    "typecheck": "pnpm --filter @live-interviewer/backend exec prisma generate && tsc -b",
     "test": "vitest run",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
