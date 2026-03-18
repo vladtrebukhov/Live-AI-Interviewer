@@ -39,17 +39,17 @@ estimated_reading_time: 15
                                                    └──────────────────────┘
 ```
 
-The system is a pnpm monorepo with three packages (`shared`, `backend`, `frontend`). The frontend handles all user interaction, code execution, and speech recognition. The backend manages data persistence, AI feedback generation, and speech token issuance. A shared types package enforces compile-time contracts between both.
+The system is a pnpm monorepo with three packages (`@live-interviewer/shared`, `@live-interviewer/backend`, `@live-interviewer/frontend`). The frontend handles all user interaction, code execution, and speech recognition. The backend manages data persistence, AI feedback generation, and speech token issuance. A shared types package enforces compile-time contracts between both.
 
 ## Monorepo Structure
 
 The project uses pnpm workspaces with a flat `packages/*` layout. Three packages live under `packages/`:
 
-| Package                    | Purpose                                             |
-|----------------------------|-----------------------------------------------------|
-| `/shared`     | Domain types, WebSocket message schemas, language registry |
-| `backend`    | Fastify API server, database, AI services           |
-| `/frontend`   | Next.js web app, code editor, speech recognition    |
+| Package                                      | Purpose                                             |
+|----------------------------------------------|-----------------------------------------------------|
+| `packages/shared` (`@live-interviewer/shared`)   | Domain types, WebSocket message schemas, language registry |
+| `packages/backend` (`@live-interviewer/backend`) | Fastify API server, database, AI services           |
+| `packages/frontend` (`@live-interviewer/frontend`)| Next.js web app, code editor, speech recognition    |
 
 TypeScript project references enable incremental builds across `shared` and `backend`. The frontend is excluded from root project references because Next.js uses `moduleResolution: "bundler"` instead of `Node16`.
 
