@@ -71,7 +71,6 @@ live-interview/
 
 ```bash
 git clone https://github.com/vladtrebukhov/Live-AI-Interviewer
-cd liveinterivew
 pnpm install
 ```
 
