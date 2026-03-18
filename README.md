@@ -37,7 +37,7 @@ For detailed architectural decisions, data flow, and design rationale, see [ARCH
 ## Project Structure
 
 ```text
-live-interview/
+<repo-root>/
 ├── packages/
 │   ├── shared/            # TypeScript types and constants
 │   ├── backend/
