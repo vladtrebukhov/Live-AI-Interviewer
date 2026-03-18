@@ -44,7 +44,7 @@ function getRequestOrigin(headers: Record<string, unknown>): string | undefined 
 function isRateLimited(ipAddress: string): boolean {
   const now = Date.now();
   const recentRequests = (tokenRequestLog.get(ipAddress) ?? []).filter(
-    timestamp => now - timestamp < TOKEN_REQUEST_WINDOW_MS,
+    (timestamp) => now - timestamp < TOKEN_REQUEST_WINDOW_MS,
   );
 
   if (recentRequests.length >= MAX_TOKEN_REQUESTS_PER_WINDOW) {
@@ -93,7 +93,9 @@ function getBrowserSpeechEndpoint(endpoint: string | undefined): string | undefi
   }
 }
 
-async function validateSpeechScope(body: SpeechTokenRequestBody): Promise<{ questionId: string } | null> {
+async function validateSpeechScope(
+  body: SpeechTokenRequestBody,
+): Promise<{ questionId: string } | null> {
   const { questionId, sessionId } = body;
 
   if (sessionId) {
@@ -125,7 +127,11 @@ async function validateSpeechScope(body: SpeechTokenRequestBody): Promise<{ ques
   return question ? { questionId: question.id } : null;
 }
 
-async function issueSpeechToken(key: string, region: string, endpoint: string | undefined): Promise<string> {
+async function issueSpeechToken(
+  key: string,
+  region: string,
+  endpoint: string | undefined,
+): Promise<string> {
   const response = await globalThis.fetch(getSpeechTokenUrl(region, endpoint), {
     method: 'POST',
     headers: {
@@ -148,11 +154,15 @@ export async function speechRoutes(app: FastifyInstance): Promise<void> {
     reply.header('Cache-Control', 'no-store');
     reply.header('Vary', 'Origin');
 
-    const allowedOrigin = normalizeOrigin(globalThis.process.env.FRONTEND_URL ?? 'http://localhost:3000');
+    const allowedOrigin = normalizeOrigin(
+      globalThis.process.env.FRONTEND_URL ?? 'http://localhost:3000',
+    );
     const requestOrigin = getRequestOrigin(request.headers as Record<string, unknown>);
 
     if (allowedOrigin && requestOrigin !== allowedOrigin) {
-      return reply.code(403).send({ error: 'Speech token requests must originate from the configured frontend' });
+      return reply
+        .code(403)
+        .send({ error: 'Speech token requests must originate from the configured frontend' });
     }
 
     const key = globalThis.process.env.AZURE_SPEECH_KEY;
@@ -165,7 +175,9 @@ export async function speechRoutes(app: FastifyInstance): Promise<void> {
     }
 
     if (isRateLimited(request.ip)) {
-      return reply.code(429).send({ error: 'Too many Speech token requests. Please try again shortly.' });
+      return reply
+        .code(429)
+        .send({ error: 'Too many Speech token requests. Please try again shortly.' });
     }
 
     const body = request.body ?? {};

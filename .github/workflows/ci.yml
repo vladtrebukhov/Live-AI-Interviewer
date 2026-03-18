@@ -30,7 +30,7 @@ jobs:
         run: pnpm format
 
       - name: Typecheck
-        run: pnpm typecheck
+        run: pnpm typecheck 
 
       - name: Test
         run: pnpm test

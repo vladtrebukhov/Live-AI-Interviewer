@@ -55,7 +55,9 @@ export async function fetchSpeechToken(payload: SpeechTokenRequest): Promise<Spe
   });
 }
 
-export async function createInterviewSession(questionId: string): Promise<InterviewSessionResponse> {
+export async function createInterviewSession(
+  questionId: string,
+): Promise<InterviewSessionResponse> {
   return apiFetch<InterviewSessionResponse>('/api/sessions', {
     method: 'POST',
     body: JSON.stringify({ questionId }),

@@ -1,13 +1,12 @@
 ---
 title: Architecture
-description: Architectural overview and key design decisions for the AgentsGalore live coding interview simulator.
+description: Architectural overview and key design decisions for the live coding interview simulator.
 author: Microsoft
 ms.date: 2026-03-17
 ms.topic: concept
 keywords:
   - architecture
   - design decisions
-  - agentsgalore
   - live interview
 estimated_reading_time: 15
 ---
@@ -40,17 +39,17 @@ estimated_reading_time: 15
                                                    └──────────────────────┘
 ```
 
-The system is a pnpm monorepo with three packages (`shared`, `backend`, `frontend`). The frontend handles all user interaction, code execution, and speech recognition. The backend manages data persistence, AI feedback generation, and speech token issuance. A shared types package enforces compile-time contracts between both.
+The system is a pnpm monorepo with three packages (`@live-interviewer/shared`, `@live-interviewer/backend`, `@live-interviewer/frontend`). The frontend handles all user interaction, code execution, and speech recognition. The backend manages data persistence, AI feedback generation, and speech token issuance. A shared types package enforces compile-time contracts between both.
 
 ## Monorepo Structure
 
 The project uses pnpm workspaces with a flat `packages/*` layout. Three packages live under `packages/`:
 
-| Package                    | Purpose                                             |
-|----------------------------|-----------------------------------------------------|
-| `@agentsgalore/shared`     | Domain types, WebSocket message schemas, language registry |
-| `@agentsgalore/backend`    | Fastify API server, database, AI services           |
-| `@agentsgalore/frontend`   | Next.js web app, code editor, speech recognition    |
+| Package                                      | Purpose                                             |
+|----------------------------------------------|-----------------------------------------------------|
+| `packages/shared` (`@live-interviewer/shared`)   | Domain types, WebSocket message schemas, language registry |
+| `packages/backend` (`@live-interviewer/backend`) | Fastify API server, database, AI services           |
+| `packages/frontend` (`@live-interviewer/frontend`)| Next.js web app, code editor, speech recognition    |
 
 TypeScript project references enable incremental builds across `shared` and `backend`. The frontend is excluded from root project references because Next.js uses `moduleResolution: "bundler"` instead of `Node16`.
 
@@ -185,8 +184,8 @@ The schema evolved across four migrations over three days:
 
 | Date   | Migration                                | Change                                           |
 |--------|------------------------------------------|--------------------------------------------------|
-| Mar 5  | `20260305140542_init`                    | Full schema with Clerk auth (`User` table, `clerkId`) |
-| Mar 6  | `20260306000000_drop_clerk_id`           | Remove `clerkId` column from `User`              |
+| Mar 5  | `20260305140542_init`                    | Full schema with `User` table and auth columns   |
+| Mar 6  | `20260306000000_drop_clerk_id`           | Remove external auth ID column from `User`       |
 | Mar 7  | `20260307000000_drop_user_model`         | Drop `User` table entirely, remove `userId` FK   |
 | Mar 7  | `20260307141325_add_starter_code_per_language` | Normalize starter code into its own model   |
 
@@ -208,7 +207,7 @@ The WebSocket message handler and connection hydrator are extracted as pure asyn
 
 ### No Authentication
 
-The project started with Clerk auth and intentionally removed it across two migrations. All endpoints are anonymous. Sessions have no user association. The speech token endpoint compensates with origin validation, rate limiting, and scope verification.
+The project originally included user authentication, which was intentionally removed across two migrations. All endpoints are anonymous. Sessions have no user association. The speech token endpoint compensates with origin validation, rate limiting, and scope verification.
 
 ### In-Memory WebSocket State
 

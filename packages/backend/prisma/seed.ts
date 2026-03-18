@@ -85,10 +85,26 @@ class ParkingLot {
         },
       ],
       testCases: [
-        { input: 'park("car") in an empty lot with at least one regular/large spot', expectedOutput: 'returns allocated spot id (string)', isHidden: false },
-        { input: 'park("bus") when only compact/regular spots are free', expectedOutput: 'null', isHidden: false },
-        { input: 'unpark(validOccupiedSpotId)', expectedOutput: 'true and spot becomes available', isHidden: false },
-        { input: 'park("car") when no compatible spot remains', expectedOutput: 'null', isHidden: true },
+        {
+          input: 'park("car") in an empty lot with at least one regular/large spot',
+          expectedOutput: 'returns allocated spot id (string)',
+          isHidden: false,
+        },
+        {
+          input: 'park("bus") when only compact/regular spots are free',
+          expectedOutput: 'null',
+          isHidden: false,
+        },
+        {
+          input: 'unpark(validOccupiedSpotId)',
+          expectedOutput: 'true and spot becomes available',
+          isHidden: false,
+        },
+        {
+          input: 'park("car") when no compatible spot remains',
+          expectedOutput: 'null',
+          isHidden: true,
+        },
       ],
     },
     {
@@ -137,7 +153,11 @@ Use a combination of a hash map and doubly linked list.`,
       ],
       testCases: [
         { input: 'capacity=2, put(1,1), put(2,2), get(1)', expectedOutput: '1', isHidden: false },
-        { input: 'capacity=2, put(1,1), put(2,2), put(3,3), get(2)', expectedOutput: '-1', isHidden: false },
+        {
+          input: 'capacity=2, put(1,1), put(2,2), put(3,3), get(2)',
+          expectedOutput: '-1',
+          isHidden: false,
+        },
         { input: 'capacity=1, put(1,1), put(2,2), get(1)', expectedOutput: '-1', isHidden: true },
       ],
     },
@@ -193,9 +213,17 @@ class TaskScheduler {
         },
       ],
       testCases: [
-        { input: 'add high and low priority, execute', expectedOutput: 'high executes first', isHidden: false },
+        {
+          input: 'add high and low priority, execute',
+          expectedOutput: 'high executes first',
+          isHidden: false,
+        },
         { input: 'task with dependency', expectedOutput: 'dependency runs first', isHidden: false },
-        { input: 'dependency cycle', expectedOutput: 'cycle detected or skipped with error', isHidden: true },
+        {
+          input: 'dependency cycle',
+          expectedOutput: 'cycle detected or skipped with error',
+          isHidden: true,
+        },
       ],
     },
     {
@@ -246,7 +274,11 @@ class TaskScheduler {
         },
       ],
       testCases: [
-        { input: 'shorten https://example.com', expectedOutput: 'returns short url', isHidden: false },
+        {
+          input: 'shorten https://example.com',
+          expectedOutput: 'returns short url',
+          isHidden: false,
+        },
         { input: 'resolve short code', expectedOutput: 'https://example.com', isHidden: false },
         { input: 'custom code collision', expectedOutput: 'error thrown', isHidden: true },
       ],
@@ -311,7 +343,11 @@ class ElevatorSystem {
       testCases: [
         { input: 'request floor 5', expectedOutput: 'floor added to queue', isHidden: false },
         { input: 'step simulation', expectedOutput: 'elevator moves one floor', isHidden: false },
-        { input: 'request while moving', expectedOutput: 'new request eventually served', isHidden: true },
+        {
+          input: 'request while moving',
+          expectedOutput: 'new request eventually served',
+          isHidden: true,
+        },
       ],
     },
     {
@@ -440,7 +476,11 @@ class FileSystem {
         },
       ],
       testCases: [
-        { input: 'create file at /docs/readme.txt', expectedOutput: 'file created', isHidden: false },
+        {
+          input: 'create file at /docs/readme.txt',
+          expectedOutput: 'file created',
+          isHidden: false,
+        },
         { input: 'list /docs', expectedOutput: '[readme.txt]', isHidden: false },
         { input: 'read missing file', expectedOutput: 'error', isHidden: true },
       ],
@@ -511,9 +551,17 @@ class ChatService {
         },
       ],
       testCases: [
-        { input: 'create room with 2 participants', expectedOutput: 'room created', isHidden: false },
+        {
+          input: 'create room with 2 participants',
+          expectedOutput: 'room created',
+          isHidden: false,
+        },
         { input: 'send message', expectedOutput: 'message stored and returned', isHidden: false },
-        { input: 'fetch recent messages limit=20', expectedOutput: 'returns latest up to 20', isHidden: true },
+        {
+          input: 'fetch recent messages limit=20',
+          expectedOutput: 'returns latest up to 20',
+          isHidden: true,
+        },
       ],
     },
   ];

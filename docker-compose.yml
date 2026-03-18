@@ -1,12 +1,12 @@
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: agentsgalore-db
+    container_name: live-interviewer-db
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: agentsgalore
+      POSTGRES_DB: live_interviewer
     ports:
       - "5432:5432"
     volumes:

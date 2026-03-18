@@ -1,7 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useCallback, useState } from 'react';
-import type { SpeechRecognitionTiming, WsIncoming, WsOutgoing, WsSpeechStatus } from '@agentsgalore/shared';
+import type {
+  SpeechRecognitionTiming,
+  WsIncoming,
+  WsOutgoing,
+  WsSpeechStatus,
+} from '@live-interviewer/shared';
 import { useInterviewStore } from '@/stores/interview-store';
 
 const RECONNECT_DELAY_MS = 1_000;
@@ -30,7 +35,9 @@ export function useInterviewSocket(questionId?: string | null, sessionId?: strin
 
       const currentCode = useInterviewStore.getState().code;
       if (currentCode) {
-        ws.send(JSON.stringify({ type: 'code_update', code: currentCode, sessionId } as WsIncoming));
+        ws.send(
+          JSON.stringify({ type: 'code_update', code: currentCode, sessionId } as WsIncoming),
+        );
       }
     };
 
@@ -104,21 +111,30 @@ export function useInterviewSocket(questionId?: string | null, sessionId?: strin
   }, []);
 
   return {
-    sendCodeUpdate: useCallback((code: string) => {
-      void send({ type: 'code_update', code, sessionId: sessionId ?? undefined });
-    }, [send, sessionId]),
-    sendFinalTranscript: useCallback((text: string, timing?: SpeechRecognitionTiming, code?: string) => {
-      void send({
-        type: 'transcript_final',
-        text,
-        timing,
-        code,
-        sessionId: sessionId ?? undefined,
-      });
-    }, [send, sessionId]),
-    sendSpeechStatus: useCallback((status: WsSpeechStatus, error?: string) => {
-      void send({ type: 'speech_status', status, error, sessionId: sessionId ?? undefined });
-    }, [send, sessionId]),
+    sendCodeUpdate: useCallback(
+      (code: string) => {
+        void send({ type: 'code_update', code, sessionId: sessionId ?? undefined });
+      },
+      [send, sessionId],
+    ),
+    sendFinalTranscript: useCallback(
+      (text: string, timing?: SpeechRecognitionTiming, code?: string) => {
+        void send({
+          type: 'transcript_final',
+          text,
+          timing,
+          code,
+          sessionId: sessionId ?? undefined,
+        });
+      },
+      [send, sessionId],
+    ),
+    sendSpeechStatus: useCallback(
+      (status: WsSpeechStatus, error?: string) => {
+        void send({ type: 'speech_status', status, error, sessionId: sessionId ?? undefined });
+      },
+      [send, sessionId],
+    ),
     requestFeedback: useCallback(() => {
       void send({ type: 'request_feedback', includeTts: true, sessionId: sessionId ?? undefined });
     }, [send, sessionId]),

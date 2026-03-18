@@ -2,7 +2,6 @@ import type { FastifyInstance } from 'fastify';
 import { prisma } from '../lib/prisma.js';
 
 export async function questionRoutes(app: FastifyInstance): Promise<void> {
-
   // GET /api/questions - List all questions with visible test cases
   app.get('/', async (_request, reply) => {
     const questions = await prisma.question.findMany({
@@ -35,4 +34,3 @@ export async function questionRoutes(app: FastifyInstance): Promise<void> {
     return reply.send(question);
   });
 }
-

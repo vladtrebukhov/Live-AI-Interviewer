@@ -1,5 +1,5 @@
 {
-  "name": "agentsgalore",
+  "name": "live-interviewer",
   "private": true,
   "type": "module",
   "engines": {
@@ -8,16 +8,16 @@
   "packageManager": "pnpm@9.15.4",
   "scripts": {
     "lint": "corepack pnpm --dir packages/frontend exec eslint . --no-warn-ignored && corepack pnpm exec eslint --no-warn-ignored packages/backend/src packages/backend/prisma.config.ts packages/backend/prisma/seed.ts packages/shared/src eslint.config.js vitest.config.ts playwright.config.ts",
-    "format": "prettier --check .",
-    "format:fix": "prettier --write .",
-    "typecheck": "tsc -b",
+    "format": "prettier --check ./packages",
+    "format:fix": "prettier --write ./packages",
+    "typecheck": "pnpm --filter @live-interviewer/backend exec prisma generate && tsc -b",
     "test": "vitest run",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
     "build": "corepack pnpm -r build",
     "dev": "pnpm -r --parallel dev",
-    "db:migrate": "pnpm --filter @agentsgalore/backend exec prisma migrate dev",
-    "db:seed": "pnpm --filter @agentsgalore/backend exec prisma db seed"
+    "db:migrate": "pnpm --filter @live-interviewer/backend exec prisma migrate dev",
+    "db:seed": "pnpm --filter @live-interviewer/backend exec prisma db seed"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

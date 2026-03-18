@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import * as SpeechSDK from 'microsoft-cognitiveservices-speech-sdk';
-import type { SpeechRecognitionTiming } from '@agentsgalore/shared';
+import type { SpeechRecognitionTiming } from '@live-interviewer/shared';
 import { fetchSpeechToken } from '@/lib/api';
 import type { SpeechRecognitionStatus } from '@/stores/interview-store';
 
@@ -37,7 +37,9 @@ function getRefreshDelayMs(expiresInSeconds: number): number {
   return Math.max((expiresInSeconds - 60) * 1000, 60_000);
 }
 
-function getRecognitionTiming(result: SpeechSDK.SpeechRecognitionResult): SpeechRecognitionTiming | undefined {
+function getRecognitionTiming(
+  result: SpeechSDK.SpeechRecognitionResult,
+): SpeechRecognitionTiming | undefined {
   const offset = typeof result.offset === 'number' ? result.offset : undefined;
   const duration = typeof result.duration === 'number' ? result.duration : undefined;
 
@@ -91,23 +93,33 @@ export function useAzureSpeechRecognition({
   const [partialTranscript, setPartialTranscript] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const isSupported = typeof window !== 'undefined' && Boolean(globalThis.navigator?.mediaDevices?.getUserMedia);
+  const isSupported =
+    typeof window !== 'undefined' && Boolean(globalThis.navigator?.mediaDevices?.getUserMedia);
 
-  const updateStatus = useCallback((nextStatus: SpeechRecognitionStatus) => {
-    statusRef.current = nextStatus;
-    setStatus(nextStatus);
-    onStatusChange?.(nextStatus);
-  }, [onStatusChange]);
+  const updateStatus = useCallback(
+    (nextStatus: SpeechRecognitionStatus) => {
+      statusRef.current = nextStatus;
+      setStatus(nextStatus);
+      onStatusChange?.(nextStatus);
+    },
+    [onStatusChange],
+  );
 
-  const updatePartialTranscript = useCallback((text: string) => {
-    setPartialTranscript(text);
-    onPartialTranscript?.(text);
-  }, [onPartialTranscript]);
+  const updatePartialTranscript = useCallback(
+    (text: string) => {
+      setPartialTranscript(text);
+      onPartialTranscript?.(text);
+    },
+    [onPartialTranscript],
+  );
 
-  const updateError = useCallback((message: string | null) => {
-    setError(message);
-    onError?.(message);
-  }, [onError]);
+  const updateError = useCallback(
+    (message: string | null) => {
+      setError(message);
+      onError?.(message);
+    },
+    [onError],
+  );
 
   const clearRefreshTimer = useCallback(() => {
     if (refreshTimerRef.current) {
@@ -116,12 +128,15 @@ export function useAzureSpeechRecognition({
     }
   }, []);
 
-  const scheduleTokenRefresh = useCallback((expiresInSeconds: number) => {
-    clearRefreshTimer();
-    refreshTimerRef.current = setTimeout(() => {
-      void refreshAuthorizationTokenRef.current();
-    }, getRefreshDelayMs(expiresInSeconds));
-  }, [clearRefreshTimer]);
+  const scheduleTokenRefresh = useCallback(
+    (expiresInSeconds: number) => {
+      clearRefreshTimer();
+      refreshTimerRef.current = setTimeout(() => {
+        void refreshAuthorizationTokenRef.current();
+      }, getRefreshDelayMs(expiresInSeconds));
+    },
+    [clearRefreshTimer],
+  );
 
   const disposeRecognizer = useCallback(() => {
     clearRefreshTimer();
@@ -136,7 +151,10 @@ export function useAzureSpeechRecognition({
     }
 
     try {
-      const tokenResponse = await fetchSpeechToken({ questionId: questionId ?? undefined, sessionId: sessionId ?? undefined });
+      const tokenResponse = await fetchSpeechToken({
+        questionId: questionId ?? undefined,
+        sessionId: sessionId ?? undefined,
+      });
       recognizer.authorizationToken = tokenResponse.token;
       scheduleTokenRefresh(tokenResponse.expiresInSeconds);
     } catch (refreshError) {
@@ -146,7 +164,15 @@ export function useAzureSpeechRecognition({
       disposeRecognizer();
       updateStatus('error');
     }
-  }, [disposeRecognizer, questionId, scheduleTokenRefresh, sessionId, updateError, updatePartialTranscript, updateStatus]);
+  }, [
+    disposeRecognizer,
+    questionId,
+    scheduleTokenRefresh,
+    sessionId,
+    updateError,
+    updatePartialTranscript,
+    updateStatus,
+  ]);
 
   useEffect(() => {
     refreshAuthorizationTokenRef.current = refreshAuthorizationToken;
@@ -202,7 +228,10 @@ export function useAzureSpeechRecognition({
     updatePartialTranscript('');
 
     try {
-      const tokenResponse = await fetchSpeechToken({ questionId: questionId ?? undefined, sessionId: sessionId ?? undefined });
+      const tokenResponse = await fetchSpeechToken({
+        questionId: questionId ?? undefined,
+        sessionId: sessionId ?? undefined,
+      });
       const speechConfig = canUseSpeechEndpoint(tokenResponse.endpoint)
         ? SpeechSDK.SpeechConfig.fromEndpoint(new URL(tokenResponse.endpoint))
         : SpeechSDK.SpeechConfig.fromAuthorizationToken(tokenResponse.token, tokenResponse.region);
@@ -238,8 +267,9 @@ export function useAzureSpeechRecognition({
       };
 
       recognizer.canceled = (_, event) => {
-        const message = event.errorDetails?.trim()
-          || `Speech recognition canceled (${SpeechSDK.CancellationReason[event.reason] ?? 'unknown'})`;
+        const message =
+          event.errorDetails?.trim() ||
+          `Speech recognition canceled (${SpeechSDK.CancellationReason[event.reason] ?? 'unknown'})`;
 
         updateError(message);
         updatePartialTranscript('');
@@ -276,7 +306,18 @@ export function useAzureSpeechRecognition({
       updateStatus('error');
       return false;
     }
-  }, [disposeRecognizer, isSupported, locale, onFinalTranscript, questionId, scheduleTokenRefresh, sessionId, updateError, updatePartialTranscript, updateStatus]);
+  }, [
+    disposeRecognizer,
+    isSupported,
+    locale,
+    onFinalTranscript,
+    questionId,
+    scheduleTokenRefresh,
+    sessionId,
+    updateError,
+    updatePartialTranscript,
+    updateStatus,
+  ]);
 
   useEffect(() => {
     return () => {

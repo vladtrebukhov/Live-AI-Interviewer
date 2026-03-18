@@ -150,7 +150,10 @@ describe('websocket session helpers', () => {
     });
     expect(prismaMock.$transaction).toHaveBeenCalledWith([updateOperation, createOperation]);
     expect(state.currentCode).toBe('const seen = new Map();');
-    expect(state.conversationHistory).toContainEqual({ role: 'user', content: 'I am using a hashmap.' });
+    expect(state.conversationHistory).toContainEqual({
+      role: 'user',
+      content: 'I am using a hashmap.',
+    });
     expect(sendMessage).toHaveBeenCalledWith({
       type: 'transcript',
       text: 'I am using a hashmap.',

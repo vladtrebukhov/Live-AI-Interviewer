@@ -5,9 +5,10 @@ loadBackendEnv();
 
 const ttsEndpoint = process.env.AZURE_OPENAI_TTS_ENDPOINT ?? process.env.AZURE_OPENAI_ENDPOINT;
 const ttsApiKey = process.env.AZURE_OPENAI_TTS_API_KEY ?? process.env.AZURE_OPENAI_API_KEY;
-const ttsApiVersion = process.env.AZURE_OPENAI_TTS_API_VERSION
-  ?? process.env.AZURE_OPENAI_API_VERSION
-  ?? '2024-12-01-preview';
+const ttsApiVersion =
+  process.env.AZURE_OPENAI_TTS_API_VERSION ??
+  process.env.AZURE_OPENAI_API_VERSION ??
+  '2024-12-01-preview';
 
 const openai = new AzureOpenAI({
   endpoint: ttsEndpoint,

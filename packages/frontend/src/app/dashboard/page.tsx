@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiFetch } from '@/lib/api';
-import type { Question } from '@agentsgalore/shared';
+import type { Question } from '@live-interviewer/shared';
 
 const difficultyColors = {
   easy: 'bg-green-100 text-green-800',
@@ -51,7 +51,9 @@ export default function Dashboard() {
           >
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-lg font-semibold">{q.title}</h2>
-              <span className={`text-xs font-medium px-2 py-1 rounded ${difficultyColors[q.difficulty]}`}>
+              <span
+                className={`text-xs font-medium px-2 py-1 rounded ${difficultyColors[q.difficulty]}`}
+              >
                 {q.difficulty}
               </span>
             </div>
