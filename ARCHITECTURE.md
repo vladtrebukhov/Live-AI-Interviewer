@@ -184,8 +184,8 @@ The schema evolved across four migrations over three days:
 
 | Date   | Migration                                | Change                                           |
 |--------|------------------------------------------|--------------------------------------------------|
-| Mar 5  | `20260305140542_init`                    | Full schema with Clerk auth (`User` table, `clerkId`) |
-| Mar 6  | `20260306000000_drop_clerk_id`           | Remove `clerkId` column from `User`              |
+| Mar 5  | `20260305140542_init`                    | Full schema with `User` table and auth columns   |
+| Mar 6  | `20260306000000_drop_clerk_id`           | Remove external auth ID column from `User`       |
 | Mar 7  | `20260307000000_drop_user_model`         | Drop `User` table entirely, remove `userId` FK   |
 | Mar 7  | `20260307141325_add_starter_code_per_language` | Normalize starter code into its own model   |
 
@@ -207,7 +207,7 @@ The WebSocket message handler and connection hydrator are extracted as pure asyn
 
 ### No Authentication
 
-The project started with Clerk auth and intentionally removed it across two migrations. All endpoints are anonymous. Sessions have no user association. The speech token endpoint compensates with origin validation, rate limiting, and scope verification.
+The project originally included user authentication, which was intentionally removed across two migrations. All endpoints are anonymous. Sessions have no user association. The speech token endpoint compensates with origin validation, rate limiting, and scope verification.
 
 ### In-Memory WebSocket State
 
