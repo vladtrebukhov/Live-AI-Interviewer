@@ -31,6 +31,20 @@ describe('executeInBrowser', () => {
     expect(mockBoot).not.toHaveBeenCalled();
   });
 
+  it('returns unsupported language error for csharp', async () => {
+    const { executeInBrowser } = await import('../nodepod-runner.js');
+
+    const result = await executeInBrowser('csharp' as never, 'Console.WriteLine("hi");');
+
+    expect(result).toEqual({
+      stdout: '',
+      stderr: 'Unsupported language: csharp',
+      exitCode: 1,
+      timedOut: false,
+    });
+    expect(mockBoot).not.toHaveBeenCalled();
+  });
+
   it('executes JavaScript code and returns process output', async () => {
     const writeFile = vi.fn().mockResolvedValue(undefined);
     const spawn = vi.fn().mockResolvedValue({

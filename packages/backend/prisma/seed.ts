@@ -83,6 +83,40 @@ class ParkingLot {
   return { park, unpark, getAvailableSpots };
 }`,
         },
+        {
+          language: 'csharp',
+          code: `using System;
+using System.Collections.Generic;
+
+public enum SpotType { Compact, Regular, Large }
+public enum VehicleType { Motorcycle, Car, Bus }
+
+public class ParkingLot
+{
+    public ParkingLot(List<(string Id, SpotType Type)> spots)
+    {
+        // TODO: store spots and occupancy state
+    }
+
+    public string Park(VehicleType vehicleType)
+    {
+        // TODO: return a compatible spot id or null
+        return null;
+    }
+
+    public bool Unpark(string spotId)
+    {
+        // TODO: free a spot by id
+        return false;
+    }
+
+    public Dictionary<SpotType, int> GetAvailableSpots()
+    {
+        // TODO: return free counts by spot type
+        return new Dictionary<SpotType, int>();
+    }
+}`,
+        },
       ],
       testCases: [
         {
@@ -112,9 +146,7 @@ class ParkingLot {
       description: `Design and implement a Least Recently Used (LRU) Cache with the following operations:
 - get(key): Get the value if the key exists, otherwise return -1
 - put(key, value): Set or insert the value. When cache reaches capacity, remove the least recently used item.
-- Both operations should run in O(1) time complexity.
-
-Use a combination of a hash map and doubly linked list.`,
+- Both operations must run in O(1) time complexity.`,
       difficulty: 'medium' as const,
       tags: ['Data Structures', 'HashMap', 'Linked List'],
       starterCodes: [
@@ -148,6 +180,30 @@ Use a combination of a hash map and doubly linked list.`,
   }
 
   return { get, put };
+}`,
+        },
+        {
+          language: 'csharp',
+          code: `using System;
+using System.Collections.Generic;
+
+public class LRUCache
+{
+    public LRUCache(int capacity)
+    {
+        // TODO: implement
+    }
+
+    public int Get(int key)
+    {
+        // TODO: implement
+        return -1;
+    }
+
+    public void Put(int key, int value)
+    {
+        // TODO: implement
+    }
 }`,
         },
       ],
@@ -211,6 +267,35 @@ class TaskScheduler {
   return { addTask, run };
 }`,
         },
+        {
+          language: 'csharp',
+          code: `using System;
+using System.Collections.Generic;
+
+public enum Priority { High, Medium, Low }
+
+public class Task
+{
+    public string Id { get; set; }
+    public Priority Priority { get; set; }
+    public List<string> DependsOn { get; set; } = new();
+    public Action Run { get; set; }
+}
+
+public class TaskScheduler
+{
+    public void AddTask(Task task)
+    {
+        // TODO: store task by id
+    }
+
+    public List<string> Run()
+    {
+        // TODO: run tasks in dependency-safe, priority-aware order
+        return new List<string>();
+    }
+}`,
+        },
       ],
       testCases: [
         {
@@ -270,6 +355,31 @@ class TaskScheduler {
   }
 
   return { shorten, resolve };
+}`,
+        },
+        {
+          language: 'csharp',
+          code: `using System;
+using System.Collections.Generic;
+
+public class URLShortener
+{
+    public URLShortener(string baseUrl)
+    {
+        // TODO: implement
+    }
+
+    public string Shorten(string longUrl, string customCode = null)
+    {
+        // TODO: implement
+        return "";
+    }
+
+    public string Resolve(string shortCode)
+    {
+        // TODO: implement
+        return null;
+    }
 }`,
         },
       ],
@@ -339,6 +449,37 @@ class ElevatorSystem {
   return { requestFloor, step, getState };
 }`,
         },
+        {
+          language: 'csharp',
+          code: `using System;
+using System.Collections.Generic;
+
+public enum Direction { Up, Down, Idle }
+
+public class ElevatorSystem
+{
+    public ElevatorSystem(int startFloor = 0)
+    {
+        // TODO: initialize state
+    }
+
+    public void RequestFloor(int floor)
+    {
+        // TODO: add requested floor
+    }
+
+    public void Step()
+    {
+        // TODO: move one floor toward next stop
+    }
+
+    public (int CurrentFloor, Direction Direction, List<int> Queue) GetState()
+    {
+        // TODO: return current state snapshot
+        return (0, Direction.Idle, new List<int>());
+    }
+}`,
+        },
       ],
       testCases: [
         { input: 'request floor 5', expectedOutput: 'floor added to queue', isHidden: false },
@@ -397,6 +538,35 @@ class TokenBucketLimiter {
   }
 
   return { isAllowed, getRemainingTokens };
+}`,
+        },
+        {
+          language: 'csharp',
+          code: `using System;
+using System.Collections.Generic;
+
+public class TokenBucketLimiter
+{
+    private readonly int _capacity;
+    private readonly double _refillPerSecond;
+
+    public TokenBucketLimiter(int capacity, double refillPerSecond)
+    {
+        _capacity = capacity;
+        _refillPerSecond = refillPerSecond;
+    }
+
+    public bool IsAllowed(string clientId)
+    {
+        // TODO: refill client bucket and consume one token if available
+        return false;
+    }
+
+    public int GetRemainingTokens(string clientId)
+    {
+        // TODO: return current token estimate for client
+        return 0;
+    }
 }`,
         },
       ],
@@ -474,6 +644,41 @@ class FileSystem {
   return { mkdir, createFile, readFile, list };
 }`,
         },
+        {
+          language: 'csharp',
+          code: `using System;
+using System.Collections.Generic;
+
+public class InMemoryFileSystem
+{
+    public InMemoryFileSystem()
+    {
+        // TODO: initialize root directory
+    }
+
+    public void Mkdir(string path)
+    {
+        // TODO: create directory path
+    }
+
+    public void CreateFile(string path, string content)
+    {
+        // TODO: create or overwrite file
+    }
+
+    public string ReadFile(string path)
+    {
+        // TODO: return file content or throw
+        return "";
+    }
+
+    public List<string> List(string path)
+    {
+        // TODO: list names at path
+        return new List<string>();
+    }
+}`,
+        },
       ],
       testCases: [
         {
@@ -549,6 +754,47 @@ class ChatService {
   return { createRoom, sendMessage, getRecentMessages };
 }`,
         },
+        {
+          language: 'csharp',
+          code: `using System;
+using System.Collections.Generic;
+
+public class Room
+{
+    public string Id { get; set; }
+    public List<string> ParticipantIds { get; set; } = new();
+}
+
+public class Message
+{
+    public string Id { get; set; }
+    public string RoomId { get; set; }
+    public string SenderId { get; set; }
+    public string Content { get; set; }
+    public long CreatedAt { get; set; }
+}
+
+public class ChatService
+{
+    public Room CreateRoom(List<string> participantIds)
+    {
+        // TODO: create and return room
+        throw new NotImplementedException();
+    }
+
+    public Message SendMessage(string roomId, string senderId, string content)
+    {
+        // TODO: create and store message
+        throw new NotImplementedException();
+    }
+
+    public List<Message> GetRecentMessages(string roomId, int limit)
+    {
+        // TODO: return recent messages
+        return new List<Message>();
+    }
+}`,
+        },
       ],
       testCases: [
         {
@@ -560,6 +806,325 @@ class ChatService {
         {
           input: 'fetch recent messages limit=20',
           expectedOutput: 'returns latest up to 20',
+          isHidden: true,
+        },
+      ],
+    },
+    {
+      title: 'Design a Min Stack',
+      description: `Design a stack that supports the following operations in O(1) time:
+- push(val): Push an element onto the stack
+- pop(): Remove the element on top of the stack
+- top(): Get the top element
+- getMin(): Retrieve the minimum element in the stack
+
+All operations must run in O(1) time complexity. The stack will only contain integer values.`,
+      difficulty: 'easy' as const,
+      tags: ['Data Structures', 'Stack', 'Design'],
+      starterCodes: [
+        {
+          language: 'typescript',
+          code: `class MinStack {
+  constructor() {
+    // TODO: initialize data structures
+  }
+
+  push(val: number): void {
+    // TODO: implement
+  }
+
+  pop(): void {
+    // TODO: implement
+  }
+
+  top(): number {
+    // TODO: implement
+    return 0;
+  }
+
+  getMin(): number {
+    // TODO: implement
+    return 0;
+  }
+}`,
+        },
+        {
+          language: 'javascript',
+          code: `function createMinStack() {
+  // TODO: initialize data structures
+
+  function push(val) {
+    // TODO: implement
+  }
+
+  function pop() {
+    // TODO: implement
+  }
+
+  function top() {
+    // TODO: implement
+    return 0;
+  }
+
+  function getMin() {
+    // TODO: implement
+    return 0;
+  }
+
+  return { push, pop, top, getMin };
+}`,
+        },
+        {
+          language: 'csharp',
+          code: `using System;
+using System.Collections.Generic;
+
+public class MinStack
+{
+    public MinStack()
+    {
+        // TODO: initialize data structures
+    }
+
+    public void Push(int val)
+    {
+        // TODO: implement
+    }
+
+    public void Pop()
+    {
+        // TODO: implement
+    }
+
+    public int Top()
+    {
+        // TODO: implement
+        return 0;
+    }
+
+    public int GetMin()
+    {
+        // TODO: implement
+        return 0;
+    }
+}`,
+        },
+      ],
+      testCases: [
+        {
+          input: 'push(-2), push(0), push(-3), getMin()',
+          expectedOutput: '-3',
+          isHidden: false,
+        },
+        {
+          input: 'push(-2), push(0), push(-3), pop(), top()',
+          expectedOutput: '0',
+          isHidden: false,
+        },
+        {
+          input: 'push(-2), push(0), push(-3), pop(), getMin()',
+          expectedOutput: '-2',
+          isHidden: true,
+        },
+      ],
+    },
+    {
+      title: 'Design a Snake Game',
+      description: `Design the classic Snake game with the following requirements:
+- The game board is a grid of configurable width and height
+- A snake starts at position (0, 0) moving right
+- Food appears at pre-defined positions (given as an ordered list)
+- The snake moves one cell per step in its current direction
+- Support: move(direction) -> score
+  - direction is one of: 'U' (up), 'D' (down), 'L' (left), 'R' (right)
+  - Returns the current score (number of food items eaten)
+  - Returns -1 if the game is over (snake hits wall or itself)
+- When the snake eats food, it grows by one unit and the next food appears
+- The snake's body occupies all cells it has traversed minus the tail movement`,
+      difficulty: 'medium' as const,
+      tags: ['Design', 'Queue', 'State Machine'],
+      starterCodes: [
+        {
+          language: 'typescript',
+          code: `class SnakeGame {
+  constructor(width: number, height: number, food: number[][]) {
+    // TODO: initialize game state
+  }
+
+  move(direction: string): number {
+    // TODO: move snake, return score or -1 if game over
+    return 0;
+  }
+}`,
+        },
+        {
+          language: 'javascript',
+          code: `function createSnakeGame(width, height, food) {
+  // TODO: initialize game state
+
+  function move(direction) {
+    // TODO: move snake, return score or -1 if game over
+    return 0;
+  }
+
+  return { move };
+}`,
+        },
+        {
+          language: 'csharp',
+          code: `using System;
+using System.Collections.Generic;
+
+public class SnakeGame
+{
+    public SnakeGame(int width, int height, int[][] food)
+    {
+        // TODO: initialize game state
+    }
+
+    public int Move(string direction)
+    {
+        // TODO: move snake, return score or -1 if game over
+        return 0;
+    }
+}`,
+        },
+      ],
+      testCases: [
+        {
+          input: '3x3 board, food=[[1,2],[0,1]], move R, move D, move R',
+          expectedOutput: '0, 0, 1',
+          isHidden: false,
+        },
+        {
+          input: '3x3 board, food=[[0,1]], move R',
+          expectedOutput: '1',
+          isHidden: false,
+        },
+        {
+          input: '2x2 board, food=[], move R, move R',
+          expectedOutput: '0, -1',
+          isHidden: true,
+        },
+      ],
+    },
+    {
+      title: 'Design a Key-Value Store with TTL',
+      description: `Design an in-memory key-value store that supports time-to-live (TTL) expiration:
+- put(key, value, ttlMs): Store a key-value pair that expires after ttlMs milliseconds. If ttlMs is 0, the key never expires.
+- get(key): Return the value if the key exists and has not expired, otherwise return null
+- delete(key): Remove the key immediately
+- cleanup(): Remove all expired keys
+
+Keys are strings and values can be any type. Expired keys should not be returned by get() even if cleanup() has not been called.`,
+      difficulty: 'medium' as const,
+      tags: ['Data Structures', 'HashMap', 'Design'],
+      starterCodes: [
+        {
+          language: 'typescript',
+          code: `class KVStore<T = unknown> {
+  constructor() {
+    // TODO: initialize storage
+  }
+
+  put(key: string, value: T, ttlMs: number = 0): void {
+    // TODO: store value with optional expiration
+  }
+
+  get(key: string): T | null {
+    // TODO: return value if exists and not expired
+    return null;
+  }
+
+  delete(key: string): boolean {
+    // TODO: remove key, return whether it existed
+    return false;
+  }
+
+  cleanup(): number {
+    // TODO: remove all expired keys, return count removed
+    return 0;
+  }
+}`,
+        },
+        {
+          language: 'javascript',
+          code: `function createKVStore() {
+  // TODO: initialize storage
+
+  function put(key, value, ttlMs = 0) {
+    // TODO: store value with optional expiration
+  }
+
+  function get(key) {
+    // TODO: return value if exists and not expired
+    return null;
+  }
+
+  function del(key) {
+    // TODO: remove key, return whether it existed
+    return false;
+  }
+
+  function cleanup() {
+    // TODO: remove all expired keys, return count removed
+    return 0;
+  }
+
+  return { put, get, delete: del, cleanup };
+}`,
+        },
+        {
+          language: 'csharp',
+          code: `using System;
+using System.Collections.Generic;
+
+public class KVStore<T>
+{
+    public KVStore()
+    {
+        // TODO: initialize storage
+    }
+
+    public void Put(string key, T value, int ttlMs = 0)
+    {
+        // TODO: store value with optional expiration
+    }
+
+    public T Get(string key)
+    {
+        // TODO: return value if exists and not expired
+        return default;
+    }
+
+    public bool Delete(string key)
+    {
+        // TODO: remove key, return whether it existed
+        return false;
+    }
+
+    public int Cleanup()
+    {
+        // TODO: remove all expired keys, return count removed
+        return 0;
+    }
+}`,
+        },
+      ],
+      testCases: [
+        {
+          input: 'put("a", 1, 1000), get("a") immediately',
+          expectedOutput: '1',
+          isHidden: false,
+        },
+        {
+          input: 'put("b", 2, 100), get("b") after 200ms',
+          expectedOutput: 'null',
+          isHidden: false,
+        },
+        {
+          input: 'put("c", 3, 0), get("c") after any time',
+          expectedOutput: '3',
           isHidden: true,
         },
       ],

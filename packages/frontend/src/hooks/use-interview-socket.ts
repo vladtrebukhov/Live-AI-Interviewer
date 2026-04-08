@@ -14,6 +14,7 @@ const RECONNECT_DELAY_MS = 1_000;
 export function useInterviewSocket(questionId?: string | null, sessionId?: string | null) {
   const wsRef = useRef<WebSocket | null>(null);
   const [connectionAttempt, setConnectionAttempt] = useState(0);
+  const [isAwaitingFeedback, setIsAwaitingFeedback] = useState(false);
   const { setConnected, addMessage } = useInterviewStore();
 
   useEffect(() => {
@@ -60,6 +61,7 @@ export function useInterviewSocket(questionId?: string | null, sessionId?: strin
         const msg = JSON.parse(event.data as string) as WsOutgoing;
         switch (msg.type) {
           case 'feedback':
+            setIsAwaitingFeedback(false);
             addMessage({
               id: crypto.randomUUID(),
               role: 'assistant',
@@ -81,6 +83,7 @@ export function useInterviewSocket(questionId?: string | null, sessionId?: strin
             playAudio(msg.audio);
             break;
           case 'error':
+            setIsAwaitingFeedback(false);
             console.error('WS error:', msg.message);
             break;
         }
@@ -136,8 +139,10 @@ export function useInterviewSocket(questionId?: string | null, sessionId?: strin
       [send, sessionId],
     ),
     requestFeedback: useCallback(() => {
+      setIsAwaitingFeedback(true);
       void send({ type: 'request_feedback', includeTts: true, sessionId: sessionId ?? undefined });
     }, [send, sessionId]),
+    isAwaitingFeedback,
   };
 }
 

@@ -8,7 +8,7 @@ import { useAzureSpeechRecognition } from '@/hooks/use-azure-speech-recognition'
 import { apiFetch, createInterviewSession, fetchInterviewSession } from '@/lib/api';
 import { executeInBrowser } from '@/lib/execution/nodepod-runner';
 import { runTestCasesInBrowser } from '@/lib/execution/run-tests';
-import { SUPPORTED_LANGUAGES } from '@live-interviewer/shared';
+import { SUPPORTED_LANGUAGES, EXECUTABLE_LANGUAGES } from '@live-interviewer/shared';
 import type { Question, SupportedLanguage } from '@live-interviewer/shared';
 
 type OutputTab = 'testcases' | 'output';
@@ -138,7 +138,7 @@ export default function InterviewWorkspace({
     setTestResults,
   } = useInterviewStore();
 
-  const { sendCodeUpdate, sendFinalTranscript, sendSpeechStatus, requestFeedback } =
+  const { sendCodeUpdate, sendFinalTranscript, sendSpeechStatus, requestFeedback, isAwaitingFeedback } =
     useInterviewSocket(question?.id ?? null, sessionId);
 
   const { startRecognition, stopRecognition, isSupported } = useAzureSpeechRecognition({
@@ -239,6 +239,12 @@ export default function InterviewWorkspace({
   const handleRunCode = useCallback(async () => {
     if (!question || isRunningCode) return;
 
+    if (!EXECUTABLE_LANGUAGES.has(language)) {
+      setRunOutput(`Code execution is not available for ${SUPPORTED_LANGUAGES.find((l) => l.id === language)?.label ?? language}. You can write and discuss your solution with the interviewer.`);
+      setActiveTab('output');
+      return;
+    }
+
     setIsRunningCode(true);
     setRunOutput('Running...');
     setActiveTab('output');
@@ -256,6 +262,20 @@ export default function InterviewWorkspace({
 
   const handleRunTests = useCallback(async () => {
     if (!question || isRunningTests) return;
+
+    if (!EXECUTABLE_LANGUAGES.has(language)) {
+      setTestResults([
+        {
+          testCaseId: 'unsupported-language',
+          passed: false,
+          actualOutput: '',
+          expectedOutput: '',
+          error: `Test execution is not available for ${SUPPORTED_LANGUAGES.find((l) => l.id === language)?.label ?? language}. You can write and discuss your solution with the interviewer.`,
+        },
+      ]);
+      setActiveTab('testcases');
+      return;
+    }
 
     setIsRunningTests(true);
     setActiveTab('testcases');
@@ -584,9 +604,10 @@ export default function InterviewWorkspace({
             <div className="flex items-center gap-2">
               <button
                 onClick={requestFeedback}
-                className="px-3 py-1.5 rounded text-xs font-medium bg-surface-alt text-text-secondary hover:bg-border transition-colors border border-border"
+                disabled={isAwaitingFeedback}
+                className="px-3 py-1.5 rounded text-xs font-medium bg-surface-alt text-text-secondary hover:bg-border transition-colors border border-border disabled:opacity-50"
               >
-                Get Feedback
+                {isAwaitingFeedback ? 'Waiting…' : 'Get Feedback'}
               </button>
             </div>
             <div className="flex items-center gap-2">

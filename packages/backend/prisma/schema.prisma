@@ -24,7 +24,7 @@ model Question {
 model StarterCode {
   id         String   @id @default(cuid())
   questionId String
-  language   String   // 'typescript' | 'javascript'
+  language   String   // 'typescript' | 'javascript' | 'csharp'
   code       String   @db.Text
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 

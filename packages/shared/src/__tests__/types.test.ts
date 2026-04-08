@@ -8,7 +8,9 @@ import type {
   CodeExecutionResult,
   TestCaseResult,
   StarterCode,
+  SupportedLanguage,
 } from '../index.js';
+import { SUPPORTED_LANGUAGES, EXECUTABLE_LANGUAGES } from '../index.js';
 
 describe('Shared types smoke test', () => {
   it('creates a valid Question with TestCases', () => {
@@ -89,5 +91,40 @@ describe('Shared types smoke test', () => {
     };
     expect(result.passed).toBe(true);
     expect(result.error).toBeNull();
+  });
+
+  it('includes csharp in SupportedLanguage type', () => {
+    const lang: SupportedLanguage = 'csharp';
+    expect(lang).toBe('csharp');
+  });
+
+  it('SUPPORTED_LANGUAGES includes C# with correct monacoId', () => {
+    const csharp = SUPPORTED_LANGUAGES.find((l) => l.id === 'csharp');
+    expect(csharp).toBeDefined();
+    expect(csharp!.label).toBe('C#');
+    expect(csharp!.monacoId).toBe('csharp');
+  });
+
+  it('SUPPORTED_LANGUAGES contains all three languages', () => {
+    const ids = SUPPORTED_LANGUAGES.map((l) => l.id);
+    expect(ids).toContain('typescript');
+    expect(ids).toContain('javascript');
+    expect(ids).toContain('csharp');
+    expect(SUPPORTED_LANGUAGES).toHaveLength(3);
+  });
+
+  it('EXECUTABLE_LANGUAGES includes js and ts but not csharp', () => {
+    expect(EXECUTABLE_LANGUAGES.has('typescript')).toBe(true);
+    expect(EXECUTABLE_LANGUAGES.has('javascript')).toBe(true);
+    expect(EXECUTABLE_LANGUAGES.has('csharp')).toBe(false);
+  });
+
+  it('creates a valid StarterCode with csharp language', () => {
+    const sc: StarterCode = {
+      id: 'sc-csharp',
+      language: 'csharp',
+      code: 'public class Solution { }',
+    };
+    expect(sc.language).toBe('csharp');
   });
 });

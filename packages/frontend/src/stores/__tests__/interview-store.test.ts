@@ -22,6 +22,11 @@ describe('useInterviewStore', () => {
     expect(useInterviewStore.getState().language).toBe('javascript');
   });
 
+  it('setLanguage accepts csharp as a valid language', () => {
+    useInterviewStore.getState().setLanguage('csharp');
+    expect(useInterviewStore.getState().language).toBe('csharp');
+  });
+
   it('setCode updates code', () => {
     useInterviewStore.getState().setCode('const x = 1;');
     expect(useInterviewStore.getState().code).toBe('const x = 1;');

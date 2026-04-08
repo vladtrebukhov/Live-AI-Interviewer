@@ -53,12 +53,16 @@ export interface LLMFeedbackResponse {
   type: 'clarification' | 'hint' | 'feedback' | 'confirmation' | 'follow-up';
 }
 
-export type SupportedLanguage = 'typescript' | 'javascript';
+export type SupportedLanguage = 'typescript' | 'javascript' | 'csharp';
 
 export const SUPPORTED_LANGUAGES: { id: SupportedLanguage; label: string; monacoId: string }[] = [
   { id: 'typescript', label: 'TypeScript', monacoId: 'typescript' },
   { id: 'javascript', label: 'JavaScript', monacoId: 'javascript' },
+  { id: 'csharp', label: 'C#', monacoId: 'csharp' },
 ];
+
+/** Languages that support browser-side code execution via Nodepod. */
+export const EXECUTABLE_LANGUAGES = new Set<SupportedLanguage>(['javascript', 'typescript']);
 
 export interface CodeExecutionRequest {
   language: SupportedLanguage;
